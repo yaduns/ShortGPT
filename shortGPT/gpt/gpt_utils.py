@@ -7,6 +7,12 @@ import tiktoken
 import json
 from shortGPT.config.api_db import get_api_key
 
+# add for Azure Openai
+openai.api_type = "azure"
+openai.api_base = "https://jkjlucky.openai.azure.com"
+openai.api_version = "2023-05-15"
+deployment_id="LangChain"
+
 def num_tokens_from_messages(texts, model="gpt-3.5-turbo-0301"):
     """Returns the number of tokens used by a list of messages."""
     try:
@@ -69,6 +75,7 @@ def gpt3Turbo_completion(chat_prompt="", system="You are an AI that can give the
                 {"role": "user", "content": chat_prompt}
                 ]
             response = openai.ChatCompletion.create(
+                deployment_id = deployment_id, # addn for azure openai
                 model=model,
                 messages=messages,
                 max_tokens=max_tokens,
